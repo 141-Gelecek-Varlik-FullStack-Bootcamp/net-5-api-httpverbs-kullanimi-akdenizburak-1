@@ -99,8 +99,15 @@ namespace MovieList.Controllers
 
         // DELETE api/<MovieController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult DeleteMovie(int id)
         {
+            var movie = MovieList.Single(x => x.Id == id);
+            if (movie is null)
+            {
+                return BadRequest();
+            }
+            MovieList.Remove(movie);
+            return Ok();
         }
     }
 }
