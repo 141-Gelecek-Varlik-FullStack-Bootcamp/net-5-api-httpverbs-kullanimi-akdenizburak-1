@@ -12,6 +12,7 @@ namespace MovieList.Controllers
     [ApiController]
     public class MovieController : ControllerBase
     {
+        //statik bir liste oluşturduk, statik yapma sebebimiz: program her çalıştırıldığında oluşturulup silinmesi
         private static List<Movie> MovieList = new List<Movie>()
         {
             new Movie
@@ -48,6 +49,8 @@ namespace MovieList.Controllers
                 Released=new DateTime(2018,03,27)
             }
         };
+
+        //Tüm filmleri getiren GET metodu
         // GET: api/<MovieController>
         [HttpGet]
         public List<Movie> GetMovies()
@@ -56,6 +59,7 @@ namespace MovieList.Controllers
             return movieList;
         }
 
+        //id ye göre film getiren FromRoute kullanımlı GET metodu
         // GET api/<MovieController>/5
         [HttpGet("{id}")]
         public Movie GetById(int id)
@@ -64,6 +68,7 @@ namespace MovieList.Controllers
             return movie;
         }
 
+        //Yeni bir film eklemek için post metodu
         // POST api/<MovieController>
         [HttpPost]
         public IActionResult AddMovie([FromBody] Movie newMovie)
@@ -77,6 +82,7 @@ namespace MovieList.Controllers
             return Ok();
         }
 
+        //Filmleri güncelleyen PUT metodu
         // PUT api/<MovieController>/5
         [HttpPut("{id}")]
         public IActionResult UpdateMovie(int id, [FromBody] Movie updatedMovie)
@@ -97,6 +103,7 @@ namespace MovieList.Controllers
             return Ok();
         }
 
+        //filmleri id'ye göre silen DELETE metodu
         // DELETE api/<MovieController>/5
         [HttpDelete("{id}")]
         public IActionResult DeleteMovie(int id)
