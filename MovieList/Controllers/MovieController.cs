@@ -79,8 +79,22 @@ namespace MovieList.Controllers
 
         // PUT api/<MovieController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult UpdateMovie(int id, [FromBody] Movie updatedMovie)
         {
+            var movie = MovieList.SingleOrDefault(x => x.Id == id);
+
+            if (movie is null)
+            {
+                return BadRequest();
+            }
+            movie.Genre = updatedMovie.Genre != default ? updatedMovie.Genre : movie.Genre;
+            movie.Year = updatedMovie.Year != default ? updatedMovie.Year : movie.Year;
+            movie.Language = updatedMovie.Language != default ? updatedMovie.Language : movie.Language;
+            movie.Ratings = updatedMovie.Ratings != default ? updatedMovie.Ratings : movie.Ratings;
+            movie.Title = updatedMovie.Title != default ? updatedMovie.Title : movie.Title;
+            movie.Director = updatedMovie.Director != default ? updatedMovie.Director : movie.Director;
+            movie.Released = updatedMovie.Released != default ? updatedMovie.Released : movie.Released;
+            return Ok();
         }
 
         // DELETE api/<MovieController>/5
