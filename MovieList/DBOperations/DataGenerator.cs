@@ -21,7 +21,7 @@ namespace MovieList.DBOperations
                 context.Movies.AddRange(
                     new Movie
                     {
-                        Id = 1,
+                        //Id = 1, id'lere artık gere yok, çünkü Movie.cs'de otomatik tanımlanıyor
                         Title = "I Lost My Body",
                         Year = 2019,
                         Director = "Jeremy Clapin",
@@ -32,7 +32,7 @@ namespace MovieList.DBOperations
                     },
                     new Movie
                     {
-                        Id = 2,
+                        //Id = 2,
                         Title = "Capernaum",
                         Year = 2018,
                         Director = "Nadine Labaki",
@@ -43,7 +43,7 @@ namespace MovieList.DBOperations
                     },
                     new Movie
                     {
-                        Id = 3,
+                        //Id = 3,
                         Title = "Oldboy",
                         Year = 2003,
                         Director = "Park Chan Wook",
