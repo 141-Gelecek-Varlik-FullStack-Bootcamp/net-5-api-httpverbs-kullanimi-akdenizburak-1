@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovieList.DBOperations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,50 +13,56 @@ namespace MovieList.Controllers
     [ApiController]
     public class MovieController : ControllerBase
     {
-        //statik bir liste oluşturduk, statik yapma sebebimiz: program her çalıştırıldığında oluşturulup silinmesi
-        private static List<Movie> MovieList = new List<Movie>()
+        private readonly MovieListDbContext _context;
+
+        public MovieController (MovieListDbContext context)
         {
-            new Movie
-            {
-                Id=1,
-                Title="I Lost My Body",
-                Year=2019,
-                Director="Jeremy Clapin",
-                Genre="Animation,Drama",
-                Language="French",
-                Ratings=7.6,
-                Released=new DateTime(2019,06,16)
-            },
-            new Movie
-            {
-                Id=2,
-                Title="Capernaum",
-                Year=2018,
-                Director="Nadine Labaki",
-                Genre="Drama",
-                Language="Arabic",
-                Ratings=8.4,
-                Released=new DateTime(2018,03,27)
-            },
-            new Movie
-            {
-                Id=3,
-                Title="Oldboy",
-                Year=2003,
-                Director="Park Chan Wook",
-                Genre="Action,Drama",
-                Language="Korean",
-                Ratings=8.5,
-                Released=new DateTime(2018,03,27)
-            }
-        };
+            _context=context;
+        }
+        //statik bir liste oluşturduk, statik yapma sebebimiz: program her çalıştırıldığında oluşturulup silinmesi
+        //private static List<Movie> MovieList = new List<Movie>()
+        //{
+        //    new Movie
+        //    {
+        //        Id=1,
+        //        Title="I Lost My Body",
+        //        Year=2019,
+        //        Director="Jeremy Clapin",
+        //        Genre="Animation,Drama",
+        //        Language="French",
+        //        Ratings=7.6,
+        //        Released=new DateTime(2019,06,16)
+        //    },
+        //    new Movie
+        //    {
+        //        Id=2,
+        //        Title="Capernaum",
+        //        Year=2018,
+        //        Director="Nadine Labaki",
+        //        Genre="Drama",
+        //        Language="Arabic",
+        //        Ratings=8.4,
+        //        Released=new DateTime(2018,03,27)
+        //    },
+        //    new Movie
+        //    {
+        //        Id=3,
+        //        Title="Oldboy",
+        //        Year=2003,
+        //        Director="Park Chan Wook",
+        //        Genre="Action,Drama",
+        //        Language="Korean",
+        //        Ratings=8.5,
+        //        Released=new DateTime(2018,03,27)
+        //    }
+        //};
 
         //Tüm filmleri getiren GET metodu
         // GET: api/<MovieController>
         [HttpGet]
         public List<Movie> GetMovies()
         {
-            var movieList = MovieList.OrderBy(x => x.Id).ToList<Movie>();
+            var movieList = _context.Movies.OrderBy(x => x.Id).ToList<Movie>();
             return movieList;
         }
 
@@ -64,7 +71,7 @@ namespace MovieList.Controllers
         [HttpGet("{id}")]
         public Movie GetById(int id)
         {
-            var movie = MovieList.Where(movie => movie.Id == id).SingleOrDefault();
+            var movie = _context.Movies.Where(movie => movie.Id == id).SingleOrDefault();
             return movie;
         }
 
@@ -73,12 +80,13 @@ namespace MovieList.Controllers
         [HttpPost]
         public IActionResult AddMovie([FromBody] Movie newMovie)
         {
-            var movie = MovieList.SingleOrDefault(x => x.Title.ToLower() == newMovie.Title.ToLower()||x.Id==newMovie.Id);
+            var movie = _context.Movies.SingleOrDefault(x => x.Title.ToLower() == newMovie.Title.ToLower()||x.Id==newMovie.Id);
             if (movie is not null)
             {
                 return BadRequest();
             }
-            MovieList.Add(newMovie);
+            _context.Movies.Add(newMovie);
+            _context.SaveChanges();
             return Ok();
         }
 
@@ -87,7 +95,7 @@ namespace MovieList.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateMovie(int id, [FromBody] Movie updatedMovie)
         {
-            var movie = MovieList.SingleOrDefault(x => x.Id == id);
+            var movie = _context.Movies.SingleOrDefault(x => x.Id == id);
 
             if (movie is null)
             {
@@ -100,6 +108,8 @@ namespace MovieList.Controllers
             movie.Title = updatedMovie.Title != default ? updatedMovie.Title : movie.Title;
             movie.Director = updatedMovie.Director != default ? updatedMovie.Director : movie.Director;
             movie.Released = updatedMovie.Released != default ? updatedMovie.Released : movie.Released;
+
+            _context.SaveChanges();
             return Ok();
         }
 
@@ -108,12 +118,13 @@ namespace MovieList.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteMovie(int id)
         {
-            var movie = MovieList.Single(x => x.Id == id);
+            var movie = _context.Movies.Single(x => x.Id == id);
             if (movie is null)
             {
                 return BadRequest();
             }
-            MovieList.Remove(movie);
+            _context.Movies.Remove(movie);
+            _context.SaveChanges();
             return Ok();
         }
     }

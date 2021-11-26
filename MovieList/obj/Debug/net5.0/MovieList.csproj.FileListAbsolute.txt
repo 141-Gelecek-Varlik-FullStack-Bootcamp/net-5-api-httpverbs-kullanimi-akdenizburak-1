@@ -27,3 +27,8 @@ C:\Users\kanka\source\repos\MovieList\MovieList\obj\Debug\net5.0\MovieList.dll
 C:\Users\kanka\source\repos\MovieList\MovieList\obj\Debug\net5.0\ref\MovieList.dll
 C:\Users\kanka\source\repos\MovieList\MovieList\obj\Debug\net5.0\MovieList.pdb
 C:\Users\kanka\source\repos\MovieList\MovieList\obj\Debug\net5.0\MovieList.genruntimeconfig.cache
+C:\Users\kanka\source\repos\MovieList\MovieList\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\kanka\source\repos\MovieList\MovieList\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\kanka\source\repos\MovieList\MovieList\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.InMemory.dll
+C:\Users\kanka\source\repos\MovieList\MovieList\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\kanka\source\repos\MovieList\MovieList\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
