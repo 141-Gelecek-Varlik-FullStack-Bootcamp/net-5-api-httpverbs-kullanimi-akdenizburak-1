@@ -20,9 +20,7 @@ namespace MovieList.MovieOperations.CreateMovie
             var movie = _dbContext.Movies.SingleOrDefault(x => x.Title.ToLower() == Model.Title.ToLower());
 
             if (movie is not null)
-            {
                 throw new InvalidOperationException("Film zaten mevcut");
-            }
             movie = new Movie();
             movie.Title = Model.Title;
             movie.Language = Model.Language;

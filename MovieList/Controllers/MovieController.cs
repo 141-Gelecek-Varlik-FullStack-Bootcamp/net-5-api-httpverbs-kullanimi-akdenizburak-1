@@ -1,12 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieList.DBOperations;
 using MovieList.MovieOperations.CreateMovie;
+using MovieList.MovieOperations.DeleteMovie;
+using MovieList.MovieOperations.GetMovieDetail;
 using MovieList.MovieOperations.GetMovies;
+using MovieList.MovieOperations.UpdateMovie;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using static MovieList.MovieOperations.CreateMovie.CreateMovieCommand;
+using static MovieList.MovieOperations.UpdateMovie.UpdateMovieCommand;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -36,10 +40,20 @@ namespace MovieList.Controllers
         //id ye göre film getiren FromRoute kullanımlı GET metodu
         // GET api/<MovieController>/5
         [HttpGet("{id}")]
-        public Movie GetById(int id)
+        public IActionResult GetById(int id)
         {
-            var movie = _context.Movies.Where(movie => movie.Id == id).SingleOrDefault();
-            return movie;
+            MovieDetailViewModel result;
+            try
+            {
+                GetMovieDetailQuery query = new GetMovieDetailQuery(_context);
+                query.MovieId = id;
+                result= query.Handle();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return Ok(result);
         }
 
         //Yeni bir film eklemek için post metodu
@@ -63,23 +77,19 @@ namespace MovieList.Controllers
         //Filmleri güncelleyen PUT metodu
         // PUT api/<MovieController>/5
         [HttpPut("{id}")]
-        public IActionResult UpdateMovie(int id, [FromBody] Movie updatedMovie)
+        public IActionResult UpdateMovie(int id, [FromBody] UpdateMovieModel updatedMovie)
         {
-            var movie = _context.Movies.SingleOrDefault(x => x.Id == id);
-
-            if (movie is null)
+            try
             {
-                return BadRequest();
+                UpdateMovieCommand command = new UpdateMovieCommand(_context);
+                command.MovieId = id;
+                command.Model = updatedMovie;
+                command.Handle();
             }
-            movie.Genre = updatedMovie.Genre != default ? updatedMovie.Genre : movie.Genre;
-            movie.Year = updatedMovie.Year != default ? updatedMovie.Year : movie.Year;
-            movie.Language = updatedMovie.Language != default ? updatedMovie.Language : movie.Language;
-            movie.Ratings = updatedMovie.Ratings != default ? updatedMovie.Ratings : movie.Ratings;
-            movie.Title = updatedMovie.Title != default ? updatedMovie.Title : movie.Title;
-            movie.Director = updatedMovie.Director != default ? updatedMovie.Director : movie.Director;
-            movie.Released = updatedMovie.Released != default ? updatedMovie.Released : movie.Released;
-
-            _context.SaveChanges();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
             return Ok();
         }
 
@@ -88,13 +98,17 @@ namespace MovieList.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteMovie(int id)
         {
-            var movie = _context.Movies.Single(x => x.Id == id);
-            if (movie is null)
+            try
             {
-                return BadRequest();
+                DeleteMovieCommand command = new DeleteMovieCommand(_context);
+                command.MovieId = id;
+                command.Handle();
             }
-            _context.Movies.Remove(movie);
-            _context.SaveChanges();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
             return Ok();
         }
     }
