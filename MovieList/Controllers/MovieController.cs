@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieList.DBOperations;
+using MovieList.MovieOperations.CreateMovie;
+using MovieList.MovieOperations.GetMovies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static MovieList.MovieOperations.CreateMovie.CreateMovieCommand;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,51 +22,15 @@ namespace MovieList.Controllers
         {
             _context=context;
         }
-        //statik bir liste oluşturduk, statik yapma sebebimiz: program her çalıştırıldığında oluşturulup silinmesi
-        //private static List<Movie> MovieList = new List<Movie>()
-        //{
-        //    new Movie
-        //    {
-        //        Id=1,
-        //        Title="I Lost My Body",
-        //        Year=2019,
-        //        Director="Jeremy Clapin",
-        //        Genre="Animation,Drama",
-        //        Language="French",
-        //        Ratings=7.6,
-        //        Released=new DateTime(2019,06,16)
-        //    },
-        //    new Movie
-        //    {
-        //        Id=2,
-        //        Title="Capernaum",
-        //        Year=2018,
-        //        Director="Nadine Labaki",
-        //        Genre="Drama",
-        //        Language="Arabic",
-        //        Ratings=8.4,
-        //        Released=new DateTime(2018,03,27)
-        //    },
-        //    new Movie
-        //    {
-        //        Id=3,
-        //        Title="Oldboy",
-        //        Year=2003,
-        //        Director="Park Chan Wook",
-        //        Genre="Action,Drama",
-        //        Language="Korean",
-        //        Ratings=8.5,
-        //        Released=new DateTime(2018,03,27)
-        //    }
-        //};
 
         //Tüm filmleri getiren GET metodu
         // GET: api/<MovieController>
         [HttpGet]
-        public List<Movie> GetMovies()
+        public IActionResult GetMovies()
         {
-            var movieList = _context.Movies.OrderBy(x => x.Id).ToList<Movie>();
-            return movieList;
+            GetMoviesQuery query = new GetMoviesQuery(_context);
+            var result = query.Handle();
+            return Ok(result);
         }
 
         //id ye göre film getiren FromRoute kullanımlı GET metodu
@@ -78,15 +45,18 @@ namespace MovieList.Controllers
         //Yeni bir film eklemek için post metodu
         // POST api/<MovieController>
         [HttpPost]
-        public IActionResult AddMovie([FromBody] Movie newMovie)
+        public IActionResult AddMovie([FromBody] CreateMovieModel newMovie)
         {
-            var movie = _context.Movies.SingleOrDefault(x => x.Title.ToLower() == newMovie.Title.ToLower()||x.Id==newMovie.Id);
-            if (movie is not null)
+            CreateMovieCommand command = new CreateMovieCommand(_context);
+            try
             {
-                return BadRequest();
+                command.Model = newMovie;
+                command.Handle();
             }
-            _context.Movies.Add(newMovie);
-            _context.SaveChanges();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
             return Ok();
         }
 
