@@ -12,6 +12,7 @@ using MovieList.DBOperations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace MovieList
@@ -36,6 +37,7 @@ namespace MovieList
             });
 
             services.AddDbContext<MovieListDbContext>(options => options.UseInMemoryDatabase(databaseName: "MovieListDB"));
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

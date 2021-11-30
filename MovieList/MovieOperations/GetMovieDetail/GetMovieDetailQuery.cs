@@ -1,4 +1,5 @@
-﻿using MovieList.DBOperations;
+﻿using AutoMapper;
+using MovieList.DBOperations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,12 @@ namespace MovieList.MovieOperations.GetMovieDetail
     public class GetMovieDetailQuery
     {
         private readonly MovieListDbContext _dbContext;
+        private readonly IMapper _mapper;
         public int MovieId { get; set; }
-        public GetMovieDetailQuery(MovieListDbContext dbContext)
+        public GetMovieDetailQuery(MovieListDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
         public MovieDetailViewModel Handle()
         {
@@ -20,13 +23,13 @@ namespace MovieList.MovieOperations.GetMovieDetail
             if (movie is null)
                 throw new InvalidOperationException("Film Bulunamadı");
 
-            MovieDetailViewModel vm = new MovieDetailViewModel();
-            vm.Title = movie.Title;
-            vm.Year = movie.Year;
-            vm.Released = movie.Released.Date.ToString("dd/MM/yyyy");
-            vm.Genre = movie.Genre;
-            vm.Language = movie.Language;
-            vm.Ratings = movie.Ratings;
+            MovieDetailViewModel vm = _mapper.Map< MovieDetailViewModel > (movie);  //new MovieDetailViewModel();
+            //vm.Title = movie.Title;
+            //vm.Year = movie.Year;
+            //vm.Released = movie.Released.Date.ToString("dd/MM/yyyy");
+            //vm.Genre = movie.Genre;
+            //vm.Language = movie.Language;
+            //vm.Ratings = movie.Ratings;
             return vm;
         }
     }

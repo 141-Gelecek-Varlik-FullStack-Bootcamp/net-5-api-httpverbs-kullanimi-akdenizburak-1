@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using MovieList.DBOperations;
 using MovieList.MovieOperations.CreateMovie;
 using MovieList.MovieOperations.DeleteMovie;
@@ -21,10 +22,12 @@ namespace MovieList.Controllers
     public class MovieController : ControllerBase
     {
         private readonly MovieListDbContext _context;
+        private readonly IMapper _mapper;
 
-        public MovieController (MovieListDbContext context)
+        public MovieController(MovieListDbContext context, IMapper mapper)
         {
-            _context=context;
+            _context = context;
+            _mapper = mapper;
         }
 
         //Tüm filmleri getiren GET metodu
@@ -32,7 +35,7 @@ namespace MovieList.Controllers
         [HttpGet]
         public IActionResult GetMovies()
         {
-            GetMoviesQuery query = new GetMoviesQuery(_context);
+            GetMoviesQuery query = new GetMoviesQuery(_context,_mapper);
             var result = query.Handle();
             return Ok(result);
         }
@@ -45,7 +48,7 @@ namespace MovieList.Controllers
             MovieDetailViewModel result;
             try
             {
-                GetMovieDetailQuery query = new GetMovieDetailQuery(_context);
+                GetMovieDetailQuery query = new GetMovieDetailQuery(_context,_mapper);
                 query.MovieId = id;
                 result= query.Handle();
             }
@@ -61,7 +64,7 @@ namespace MovieList.Controllers
         [HttpPost]
         public IActionResult AddMovie([FromBody] CreateMovieModel newMovie)
         {
-            CreateMovieCommand command = new CreateMovieCommand(_context);
+            CreateMovieCommand command = new CreateMovieCommand(_context,_mapper);
             try
             {
                 command.Model = newMovie;

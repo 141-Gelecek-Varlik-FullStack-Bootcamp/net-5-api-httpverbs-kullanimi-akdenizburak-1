@@ -32,3 +32,5 @@ C:\Users\kanka\source\repos\MovieList\MovieList\bin\Debug\net5.0\Microsoft.Entit
 C:\Users\kanka\source\repos\MovieList\MovieList\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.InMemory.dll
 C:\Users\kanka\source\repos\MovieList\MovieList\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\kanka\source\repos\MovieList\MovieList\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
+C:\Users\kanka\source\repos\MovieList\MovieList\bin\Debug\net5.0\AutoMapper.dll
+C:\Users\kanka\source\repos\MovieList\MovieList\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

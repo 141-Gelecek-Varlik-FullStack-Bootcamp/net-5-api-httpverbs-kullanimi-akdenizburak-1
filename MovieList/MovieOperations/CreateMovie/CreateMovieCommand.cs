@@ -1,4 +1,5 @@
-﻿using MovieList.DBOperations;
+﻿using AutoMapper;
+using MovieList.DBOperations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,11 @@ namespace MovieList.MovieOperations.CreateMovie
     {
         public CreateMovieModel Model { get; set; }
         private readonly MovieListDbContext _dbContext;
-        public CreateMovieCommand(MovieListDbContext dbContext)
+        private readonly IMapper _mapper;
+        public CreateMovieCommand(MovieListDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public void Handle()
@@ -21,14 +24,14 @@ namespace MovieList.MovieOperations.CreateMovie
 
             if (movie is not null)
                 throw new InvalidOperationException("Film zaten mevcut");
-            movie = new Movie();
-            movie.Title = Model.Title;
-            movie.Language = Model.Language;
-            movie.Genre = Model.Genre;
-            movie.Director = Model.Director;
-            movie.Ratings = Model.Ratings;
-            movie.Year = Model.Year;
-            movie.Released = Model.Released;
+            movie = _mapper.Map<Movie>(Model);  //new Movie();
+            //movie.Title = Model.Title;
+            //movie.Language = Model.Language;
+            //movie.Genre = Model.Genre;
+            //movie.Director = Model.Director;
+            //movie.Ratings = Model.Ratings;
+            //movie.Year = Model.Year;
+            //movie.Released = Model.Released;
 
             _dbContext.Movies.Add(movie);
             _dbContext.SaveChanges();
