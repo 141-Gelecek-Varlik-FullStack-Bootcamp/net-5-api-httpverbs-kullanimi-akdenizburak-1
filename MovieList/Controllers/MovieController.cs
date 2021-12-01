@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using MovieList.DBOperations;
 using MovieList.MovieOperations.CreateMovie;
@@ -50,6 +52,8 @@ namespace MovieList.Controllers
             {
                 GetMovieDetailQuery query = new GetMovieDetailQuery(_context,_mapper);
                 query.MovieId = id;
+                GetMovieDetailQueryValidator validator = new GetMovieDetailQueryValidator();
+                validator.ValidateAndThrow(query);
                 result= query.Handle();
             }
             catch (Exception ex)
@@ -68,7 +72,19 @@ namespace MovieList.Controllers
             try
             {
                 command.Model = newMovie;
+                CreateMovieCommandValidator validator = new CreateMovieCommandValidator();
+                validator.ValidateAndThrow(command);
                 command.Handle();
+                //if (!result.IsValid)
+                //{
+                //    foreach (var item in result.Errors)
+                //        Console.WriteLine("Özellik :" + item.PropertyName + "-Error MEssage: " + item.ErrorMessage);
+                //}
+                //else
+                //    command.Handle();
+
+
+                //command.Handle();
             }
             catch (Exception ex)
             {
@@ -87,6 +103,8 @@ namespace MovieList.Controllers
                 UpdateMovieCommand command = new UpdateMovieCommand(_context);
                 command.MovieId = id;
                 command.Model = updatedMovie;
+                UpdateMovieCommandValidator validator = new UpdateMovieCommandValidator();
+                validator.ValidateAndThrow(command);
                 command.Handle();
             }
             catch (Exception ex)
@@ -105,6 +123,8 @@ namespace MovieList.Controllers
             {
                 DeleteMovieCommand command = new DeleteMovieCommand(_context);
                 command.MovieId = id;
+                DeleteMovieCommandValidator validator = new DeleteMovieCommandValidator();
+                validator.ValidateAndThrow(command);
                 command.Handle();
             }
             catch (Exception ex)

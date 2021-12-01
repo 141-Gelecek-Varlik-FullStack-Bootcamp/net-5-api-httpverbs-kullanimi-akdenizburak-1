@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "nEdQRTGtXBRclDovUCzO8UGbXdXRjtQyZ8GwGOjYEljDzqIynrgGB0dYSStdf32uZrG4zb5Ug4QpRWntB/FTig==",
+  "dgSpecHash": "PK6SvbQBh0oE7YVY97hfWiT7hlspv0ZhYpRdUxyyFCtMR3BykAE3j9883Mg5+9BTv0ToxdCLIoboSts03eFIbg==",
   "success": true,
   "projectFilePath": "C:\\Users\\kanka\\source\\repos\\MovieList\\MovieList\\MovieList.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kanka\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\kanka\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.1\\automapper.extensions.microsoft.dependencyinjection.8.1.1.nupkg.sha512",
+    "C:\\Users\\kanka\\.nuget\\packages\\fluentvalidation\\10.1.0\\fluentvalidation.10.1.0.nupkg.sha512",
     "C:\\Users\\kanka\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\kanka\\.nuget\\packages\\microsoft.entityframeworkcore\\5.0.6\\microsoft.entityframeworkcore.5.0.6.nupkg.sha512",
     "C:\\Users\\kanka\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\5.0.6\\microsoft.entityframeworkcore.abstractions.5.0.6.nupkg.sha512",
