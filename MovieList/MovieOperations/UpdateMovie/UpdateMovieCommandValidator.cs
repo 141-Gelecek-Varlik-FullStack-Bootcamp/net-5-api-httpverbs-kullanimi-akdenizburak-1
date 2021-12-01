@@ -10,6 +10,7 @@ namespace MovieList.MovieOperations.UpdateMovie
     {
         public UpdateMovieCommandValidator()
         {
+            RuleFor(command => command.MovieId).GreaterThan(0);
             RuleFor(command => command.Model.Language).NotEmpty();
             RuleFor(command => command.Model.Ratings).GreaterThan(0);
             RuleFor(command => command.Model.Released).NotEmpty().LessThan(DateTime.Now.Date);

@@ -10,7 +10,7 @@ namespace MovieList.MovieOperations.GetMovieDetail
     {
         public GetMovieDetailQueryValidator()
         {
-            RuleFor(command => command.MovieId).NotEmpty();
+            RuleFor(query => query.MovieId).NotEmpty();
         }
     }
 }
