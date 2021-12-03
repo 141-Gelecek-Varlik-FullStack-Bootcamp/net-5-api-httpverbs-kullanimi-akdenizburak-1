@@ -23,13 +23,7 @@ namespace MovieList.MovieOperations.GetMovieDetail
             if (movie is null)
                 throw new InvalidOperationException("Film Bulunamadı");
 
-            MovieDetailViewModel vm = _mapper.Map< MovieDetailViewModel > (movie);  //new MovieDetailViewModel();
-            //vm.Title = movie.Title;
-            //vm.Year = movie.Year;
-            //vm.Released = movie.Released.Date.ToString("dd/MM/yyyy");
-            //vm.Genre = movie.Genre;
-            //vm.Language = movie.Language;
-            //vm.Ratings = movie.Ratings;
+            MovieDetailViewModel vm = _mapper.Map< MovieDetailViewModel > (movie);
             return vm;
         }
     }

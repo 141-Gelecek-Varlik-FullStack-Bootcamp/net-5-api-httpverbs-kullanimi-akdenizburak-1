@@ -19,20 +19,7 @@ namespace MovieList.MovieOperations.GetMovies
         public List<MoviesViewModel> Handle()
         {
             var movieList = _dbContext.Movies.OrderBy(x => x.Id).ToList<Movie>();
-            List<MoviesViewModel> vm = _mapper.Map<List<MoviesViewModel>>(movieList); //new List<MoviesViewModel>();
-            //foreach (var movie in movieList)
-            //{
-            //    vm.Add(new MoviesViewModel()
-            //    {
-            //        Title = movie.Title,
-            //        Year = movie.Year,
-            //        Director = movie.Director,
-            //        Genre = movie.Genre,
-            //        Language = movie.Language,
-            //        Ratings=movie.Ratings,
-            //        Released = movie.Released.Date.ToString("dd/MM/yyyy")
-            //    });
-            //}
+            List<MoviesViewModel> vm = _mapper.Map<List<MoviesViewModel>>(movieList);
             return vm;
         }
     }
